@@ -163,6 +163,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="LeaderBoard.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="MoveText.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameOver.h" />
+    <ClInclude Include="LeaderBoard.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="MoveText.h" />
     <ClInclude Include="Player.h" />

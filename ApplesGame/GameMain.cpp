@@ -23,7 +23,7 @@ int main()
 
 		int choise = 0;
 
-		std::cout << "Choose one of the three modes: " << std::endl;
+		std::cout << "Choose one of the three mods: " << std::endl;
 		std::cout << "1 = 20 apples with acceleration" << std::endl;
 		std::cout << "2 = 20 apples without acceleration" << std::endl;
 		std::cout << "3 = 50 apples with acceleration" << std::endl;

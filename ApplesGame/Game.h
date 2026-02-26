@@ -9,6 +9,7 @@
 #include "MoveText.h"
 #include "GameOver.h"
 #include "Score.h"
+#include "LeaderBoard.h"
 
 
 namespace ApplesGame
@@ -44,6 +45,11 @@ namespace ApplesGame
 
 		MoveText moveText;
 
+		std::string currentPlayerName;
+		int playerNumber = 1;
+
+		std::vector<Record> leaderboard;
+		
 	};
 
 

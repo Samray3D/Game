@@ -4,6 +4,9 @@
 #include "GameOver.h"
 #include <cassert>
 #include <SFML/Audio.hpp>
+#include "LeaderBoard.h"
+#include <algorithm>
+#include <iostream>
 
 namespace ApplesGame
 {
@@ -36,6 +39,9 @@ namespace ApplesGame
 
 	void InitGame(Game& game, int gameMode)
 	{
+
+		game.currentPlayerName = "Player1";
+		game.playerNumber = 1;
 
 		assert(game.playerTexture.loadFromFile(RESOURCES_PATH + "Player.png"));
 		assert(game.enemyTexture.loadFromFile(RESOURCES_PATH + "Enemy.png"));
@@ -74,6 +80,8 @@ namespace ApplesGame
 		}
 		game.apples = new Apple[game.numApples];
 
+		InitLeaderboard(game.leaderboard);
+
 		//Game initialization
 
 		game.background.setSize(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -100,6 +108,10 @@ namespace ApplesGame
 			}
 			else
 			{
+				game.playerNumber++;
+				std::string newName = "Player" + std::to_string(game.playerNumber);
+				UpdatePlayerName(game.leaderboard, game.currentPlayerName, newName);
+				game.currentPlayerName = newName;
 				game.background.setFillColor(sf::Color::Black);
 				RestartGame(game);
 			}
@@ -182,6 +194,11 @@ namespace ApplesGame
 					game.gameFinishTime = 0.f;
 
 					game.deathSound.play();
+
+					AddRecord(game.leaderboard, game.currentPlayerName, game.Score);
+					SortLeaderboard(game.leaderboard);
+					PrintLeaderboard(game.leaderboard);
+
 				}
 			}
 
@@ -193,6 +210,10 @@ namespace ApplesGame
 				game.gameFinishTime = 0.f;
 
 				game.deathSound.play();
+
+				UpdateRecordScore(game.leaderboard, game.currentPlayerName, game.Score);
+				SortLeaderboard(game.leaderboard);
+				PrintLeaderboard(game.leaderboard);
 			}
 
 		}
@@ -204,6 +225,30 @@ namespace ApplesGame
 		if (game.isGameFinished)
 		{
 			DrawGameOver(game.gameOver, window);
+			DrawScoreText(game.scoreText, window);
+			
+			//draw record tabl
+			sf::Text leaderboardTitle("=======LEADERBOARD=======", game.scoreText.font, 30);
+			leaderboardTitle.setPosition(100.f, 30.f);
+			leaderboardTitle.setFillColor(sf::Color::Green);
+			window.draw(leaderboardTitle);
+			float currentYPosition = 420.f;
+			int numToShow = std::min(5, (int)game.leaderboard.size());
+
+			for (int i = 0; i < numToShow; ++i)
+			{
+				Record record = game.leaderboard[i];
+
+				std::string line = std::to_string(i + 1) + ". " + record.name + "......." + std::to_string(record.score);
+				sf::Text recordText(line, game.scoreText.font, 24);
+				recordText.setPosition(100.f, currentYPosition);
+				recordText.setFillColor(sf::Color::White);
+				window.draw(recordText);
+
+
+				currentYPosition += 30.f;
+			}
+
 		}
 		else {
 			DrawPlayer(game.player, window);
